@@ -1,0 +1,17 @@
+{
+  "name": "api_words",
+  "version": "1.0.0",
+  "description": "An API for words and definitions, like a question and answer - where we can have multiple answers to a question, and we can vote on the definitions",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Dave Degeatano",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.13.4",
+    "mongoose": "^4.4.20",
+    "morgan": "^1.7.0"
+  }
+}
