@@ -28,10 +28,10 @@ router.param("definitionId", function(req, res, next, id){
 });
 
 // GET /words
-// Route for words collection - Return all the words
+// Route to GET ALL words  - word collection - Return all the words
 router.get("/", function(req, res, next){
     Word.find({})
-            .sort({createdAt: -1})
+            .sort({updatedAt: -1})
             .exec(function(err, words){
                 if (err) return next(err);
                 res.json(words);
@@ -56,12 +56,33 @@ router.post("/", function(req, res, next){
 });
 
 // GET /words/:wordId
-// Route for specific word
+// Route to GET specific word
 router.get("/:wordId", function(req, res, next){
     res.json(req.word);
 
     // Placeholder... 
     //res.json({response: "You sent me a GET request for ID: " + req.params.wordId});
+});
+
+// I created this one too, and not sure about the `res.json(result)`.  Maybe I should return the new word instead?
+// PUT /words/:wordId
+// UPDATE a specific word
+router.put("/:wordId", function(req, res){
+    req.word.update(req.body, function(err, result){
+        if (err) return next(err);
+        res.json(result);
+    })
+});
+
+// I created this one, and not sure if it's ideal...  I'm returning the deleted value, but not sure if that's consistent with all the others.  The alternative idea I ahve is to return a 205 and nothing else.
+// DELETE /words/:wordId
+// DELETE a specific word
+router.delete("/:wordId", function(req, res, next){
+    req.word.remove(function(err){
+        if (err) return next(err);
+        res.status(200);  // I think I should return a 205? (or a 204?).  Or return something instad?  
+        res.json({ response: "Deleted this...", wordId: req.word }); // Good enough?
+    });
 });
 
 //POST /words/:id/definitions
@@ -83,7 +104,7 @@ router.post("/:wordId/definitions", function(req, res, next){
 });
 
 // PUT /words/:wordId/defitions/:definitionId
-// Edit a specific definition
+// UPDATE a specific definition
 router.put("/:wordId/definitions/:definitionId", function(req, res){
     req.definition.update(req.body, function(err, result){
         if (err) return next(err);
@@ -119,7 +140,7 @@ router.delete("/:wordId/definitions/:definitionId", function(req, res){
 
 // POST /words/:wordId/defitions/definitionId/vote-up
 // POST /words/:wordId/defitions/definitionId/vote-down
-// Post a specific definition
+// VOTE for a definition
 router.post("/:wordId/definitions/:definitionId/vote-:direction", 
     function(req, res, next){
         if (req.params.direction.search(/^(up|down)$/) === -1){

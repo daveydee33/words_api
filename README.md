@@ -46,11 +46,13 @@ I currently have this running as follows:
 * MongoDB database name:  wordsanddefinitions
 
 To access the API - the base URL is:
-* http://localhost:3000/questionsandanswers
+* http://localhost:3000/words
 
 example: GET http://localhost:3000/words
 
-** Observations **
+
+
+**Observations**
 * The most votes should be at the top
 * If same number of votes, the most recent updated should be at the top
 
@@ -586,3 +588,21 @@ db.once("open", function(){
 });
 ```
 
+# Changelog
+1-June-2017
+
+Added:
+* Word updatedAt value (before the updatedAt was only on Definitions)
+* GET for Word list now returns most recent updated Word at top, descending.
+* API routes to
+    * Update Words
+    * Delete Words
+
+TODO:
+* Maybe change the response code and response data on the two methods I just created.
+* Add sorting to sort last updated Word
+* Add Voting or Ranking for Words (maybe by popularity or by needs to review)
+* Add tagging/labeling for words to filter based on Language, Category, etc.  Portuguese, Travel, Work, etc.
+* After users created, limit the amount of votes to 1.
+
+:)

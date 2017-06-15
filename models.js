@@ -49,7 +49,13 @@ DefinitionSchema.method("vote", function(vote, callback) {
 var WordSchema = new Schema({
     text: String,
     createdAt: {type: Date, default: Date.now},
+    updatedAt: {type: Date, default: Date.now},
     definitions: [DefinitionSchema]
+});
+
+WordSchema.method("update", function(updates, callback) {
+    Object.assign(this, updates, {updatedAt: new Date()});
+    this.save(callback);
 });
 
 // A pre-save callback (pre-save hook?) to sort before saving to DB
